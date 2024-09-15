@@ -12,7 +12,7 @@ function App() {
     <div className="app">
       <h1>Type the city name:</h1>
       <CityInput onCitySelect={handleCitySelect} />
-      {selectedCity && <p>You selected: {selectedCity}</p>}
+      {selectedCity && <p>You write: {selectedCity}</p>}
     </div>
   );
 }

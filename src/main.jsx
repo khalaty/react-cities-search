@@ -7,5 +7,6 @@ import './index.css';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
+    <h3>Developed by Ehsan Khalati</h3>
   </StrictMode>,
 );
