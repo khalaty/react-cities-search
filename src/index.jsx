@@ -1,37 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import citiesData from './cities.json';
 
-const Input = ({ handleChange, hint }) => {
-  const [suggestions, setSuggestions] = useState([]);
+const CityInput = ({ onCitySelect }) => {
   const [inputValue, setInputValue] = useState('');
+  const [suggestion, setSuggestion] = useState('');
 
   useEffect(() => {
-    const filteredCities = citiesData.filter(city => city.toLowerCase().startsWith(inputValue.toLowerCase()));
-    setSuggestions(filteredCities);
+    if (inputValue) {
+      const matchingCity = citiesData.find(city => 
+        city.toLowerCase().startsWith(inputValue.toLowerCase()) && city.toLowerCase() !== inputValue.toLowerCase()
+      );
+      setSuggestion(matchingCity || '');
+    } else {
+      setSuggestion('');
+    }
   }, [inputValue]);
 
   const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-    handleChange(event.target.value);
+    const value = event.target.value;
+    setInputValue(value);
+    onCitySelect(value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Tab' && suggestion) {
+      event.preventDefault();
+      setInputValue(suggestion);
+      onCitySelect(suggestion);
+      setSuggestion('');
+    }
   };
 
   return (
-    <div className="input">
-      <label htmlFor="input">{hint}</label>
+    <div className="city-input">
       <input
         type="text"
-        id="input"
         value={inputValue}
         onChange={handleInputChange}
-        list="city-suggestions"
+        onKeyDown={handleKeyDown}
+        placeholder="Enter a city name"
+        className="city-input__field"
       />
-      <datalist id="city-suggestions">
-        {suggestions.map((suggestion, index) => (
-          <option key={index} value={suggestion} />
-        ))}
-      </datalist>
+      {suggestion && (
+        <div className="city-input__suggestion">
+          {inputValue}
+          <span className="city-input__suggestion-completion">{suggestion.slice(inputValue.length)}</span>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Input;
+export default CityInput;

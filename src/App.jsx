@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import Input from './index.jsx';
+import CityInput from './index.jsx';
 
 function App() {
-  const [inputValue, setInputValue] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
 
-  const handleInputChange = (value) => {
-    setInputValue(value);
+  const handleCitySelect = (city) => {
+    setSelectedCity(city);
   };
 
   return (
-    <div>
+    <div className="app">
       <h1>Type the city name:</h1>
-      <Input handleChange={handleInputChange} hint="Enter a city name" />
+      <CityInput onCitySelect={handleCitySelect} />
+      {selectedCity && <p>You selected: {selectedCity}</p>}
     </div>
   );
 }
