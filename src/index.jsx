@@ -8,7 +8,7 @@ const CityInput = ({ onCitySelect }) => {
   useEffect(() => {
     if (inputValue) {
       const matchingCity = citiesData.find(city => 
-        city.toLowerCase().startsWith(inputValue.toLowerCase()) && city.toLowerCase() !== inputValue.toLowerCase()
+        city.startsWith(inputValue) && city !== inputValue
       );
       setSuggestion(matchingCity || '');
     } else {
